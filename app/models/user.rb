@@ -26,4 +26,12 @@ class User < ApplicationRecord
   def is_followed_by?(user)
     reverse_of_relationships.find_by(following_id: user.id).present?
   end
+  
+  def self.search_for(content, method)
+    if method == 'perfect'
+      User.where(name: content)
+    else
+      User.where('name LIKE ?', '%' + content + '%')
+    end
+  end
 end
